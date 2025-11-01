@@ -1,0 +1,41 @@
+services:
+  - type: web
+    name: verdanttech-n8n
+    env: docker
+    plan: starter
+    autoDeploy: true
+    healthCheckPath: /healthz
+    disk:
+      name: n8n-data
+      mountPath: /home/node/.n8n
+      sizeGB: 2
+    envVars:
+      # Bắt buộc
+      - key: N8N_HOST
+        value: verdanttech-n8n.onrender.com       # sẽ sửa đúng sau khi tạo
+      - key: N8N_PROTOCOL
+        value: https
+      - key: N8N_PORT
+        value: ${PORT}
+      - key: N8N_LISTEN_ADDRESS
+        value: 0.0.0.0
+      - key: WEBHOOK_URL                          # (= N8N_WEBHOOK_URL) – URL public cho webhook
+        value: https://verdanttech-n8n.onrender.com
+      - key: N8N_ENCRYPTION_KEY                   # tạo chuỗi dài ngẫu nhiên để mã hoá credentials
+        generateValue: true
+      - key: GENERIC_TIMEZONE
+        value: Asia/Ho_Chi_Minh
+
+      # Tắt các thứ không cần
+      - key: N8N_DIAGNOSTICS_ENABLED
+        value: "false"
+      - key: N8N_TEMPLATES_ENABLED
+        value: "false"
+
+      # Biến app của bạn (dùng trong workflow)
+      - key: BACKEND_BASE_URL
+        value: https://sep490.onrender.com
+      - key: GEMINI_API_KEY
+        sync: false     # nhập tay trong dashboard (bí mật)
+      - key: OPENWEATHER_API_KEY
+        sync: false     # nếu đang gọi OpenWeather trực tiếp
