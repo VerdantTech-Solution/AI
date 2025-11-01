@@ -2,7 +2,7 @@ services:
   - type: web
     name: verdanttech-n8n
     env: docker
-    plan: starter
+    # plan: starter
     autoDeploy: true
     healthCheckPath: /healthz
     disk:
